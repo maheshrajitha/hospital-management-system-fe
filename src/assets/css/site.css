@@ -1,0 +1,5 @@
+.login-screen-bg{
+    background-image: url(../img/bg-login.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
