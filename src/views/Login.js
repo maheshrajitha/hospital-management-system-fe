@@ -11,16 +11,10 @@ const Login = (props) => {
     const [password, setPassword] = React.useState(null);
     const [warningShow, setWarningShow] = React.useState(false);
     const userLogin = () => {
-        login(email, password).then(response => {
-            if (response.ok) {
-                window.location.replace('/admin/dashboard')
-                let jsonResponse = response.json();
-                localStorage.setItem('authToken', jsonResponse.token);
-                props.login(jsonResponse);
-            }
-        }).catch(e => {
-            setWarningShow(true);
-        });
+        login(email, password).then(res => {
+            localStorage.setItem('authToken', res.token);
+            window.location.replace('/admin/dashboard')
+        }).catch(e => setWarningShow(true)).catch(e => console.log(e));
     }
     return(
         <div className={'vh-100'}>

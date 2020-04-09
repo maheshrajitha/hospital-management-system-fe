@@ -12,11 +12,9 @@ export async function login(email, password) {
         }
     }).then(response => {
         if (response.ok) {
-            return response;
+            return response.json();
         } else {
-            if (response.status === 401)
-                throw new Error('Wron Email Or Password');
-            
+            throw new Error('Wrong Email Or Password');
         }
-    }).catch(e=> console.log(e));
+    }).catch(e=> {throw e});
 }

@@ -6,7 +6,12 @@ import {
   CardTitle,
   Row,
   Col,
-  Spinner
+  Spinner,
+  Table,
+  CardHeader,
+  Button,
+  Dropdown,
+  DropdownToggle
 } from "reactstrap";
 import { getAllDoctors } from '../services/admin.services';
 import { fetchDoctors } from '../redux/actions/admin.action';
@@ -14,13 +19,20 @@ import { connect } from 'react-redux';
 
 class Dashboard extends React.Component {
 
+  state = {
+    doctorList : []
+  }
   constructor(props) {
     super(props);
     if (localStorage.getItem('authToken') === null)
       window.location.replace('/');
+    
+  }
+
+  componentDidMount() {
     getAllDoctors().then(response => {
-      console.log(response);
       this.props.fetchDoctors(response);
+      console.log(this.props.doctorList);
     }).catch(e => console.log(e));
   }
   
@@ -134,7 +146,50 @@ class Dashboard extends React.Component {
               </Card>
             </Col>
           </Row>
-          {this.props.doctorList.length === 0 ? <Spinner size={'lg'} color={'dark'}/>:'test'}
+          <Row className={'mb-3'}>
+            <Col md={6}>
+              <Dropdown>
+                <DropdownToggle color={'primary'}>Page</DropdownToggle>
+              </Dropdown>
+            </Col>
+          </Row>
+          <Row>
+            <Col md={12} className={'align-self-center'}>
+              {this.props.doctorList.length === 0 ? <div className={'w-100 d-flex justify-content-center'}><Spinner size={'lg'} /></div> :
+                <Card className={'pl-4'}>
+                  <CardHeader>
+                    <CardTitle tag="h4">Available Doctors</CardTitle>
+                  </CardHeader>
+                  <Table responsive bordered>
+                    <thead className={'text-primary'}>
+                      <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Gender</th>
+                        <th>Tel Number</th>
+                        <th>Reg Number</th>
+                        <th>Specialities</th>
+                        <th>Delete</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {this.props.doctorList.map(doctor => (
+                        <tr key={doctor.id}>
+                          <td>{doctor.full_name}</td>
+                          <td>{doctor.email}</td>
+                          <td>{doctor.gender}</td>
+                          <td>{doctor.tel_number}</td>
+                          <td>{doctor.reg_number}</td>
+                          <td>{doctor.specialities}</td>
+                          <td><Button color={'dark'}>Delete</Button></td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </Table>
+                </Card>
+              }
+            </Col>
+          </Row>
         </div>
       </>
     );
