@@ -4,7 +4,7 @@
   "private": true,
   "homepage": "https://demos.creative-tim.com/paper-dashboard-react/#/dashboard",
   "dependencies": {
-    "bootstrap": "4.3.1",
+    "bootstrap": "4.4.1",
     "chart.js": "2.8.0",
     "history": "4.9.0",
     "node-sass": "4.12.0",

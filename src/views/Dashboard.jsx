@@ -16,6 +16,8 @@ import {
 import { getAllDoctors } from '../services/admin.services';
 import { fetchDoctors } from '../redux/actions/admin.action';
 import { connect } from 'react-redux';
+import AddNewDoctor from '../components/modals/AddNewDoctor';
+import { Link } from "react-router-dom";
 
 class Dashboard extends React.Component {
 
@@ -151,6 +153,9 @@ class Dashboard extends React.Component {
               <Dropdown>
                 <DropdownToggle color={'primary'}>Page</DropdownToggle>
               </Dropdown>
+            </Col>
+            <Col className={'justify-content-end'} md={6}>
+              <Link className={'btn btn-secondary btn-sm'} to={'/admin/new-doctor'}>Add New Doctor</Link>
             </Col>
           </Row>
           <Row>
