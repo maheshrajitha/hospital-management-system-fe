@@ -1,19 +1,15 @@
-import React from 'react'
-import { Container , Form, FormGroup, Col, Input, Row, Label, Card, CardBody, CardHeader , Breadcrumb , BreadcrumbItem, CustomInput, Button } from 'reactstrap'
+import React from 'react';
+import { Container , Form, FormGroup, Col, Input, Row, Label, Card, CardBody, CardHeader , Breadcrumb , BreadcrumbItem, CustomInput, Button, Alert } from 'reactstrap'
 import { addDoctor } from '../services/admin.services';
-import { Redirect ,withRouter } from 'react-router';
+import { withRouter } from 'react-router';
 
 function NewDoctor(props) {
-    console.log(props);
-    const [email, setEmail] = React.useState(null);
-    const [fullName, setFullName] = React.useState(null);
-    const [telNumber, setTelNumber] = React.useState(null);
+
     const [gender, setGender] = React.useState(null);
-    const [specialties, setSpecialties] = React.useState(null);
-    const [address, setAddress] = React.useState(null);
-    const [regNumber, setRegNumber] = React.useState(null);
+    const [showAlert, setShowAlert] = React.useState(false);
     const addDoctorButtonHandler = () => {
-        addDoctor(fullName, email, address, specialties, gender, regNumber, telNumber).then(jsonResponse => props.history.push('/admin/dashboard')).catch(err => console.log(err)).catch(networkError => console.log(networkError));
+        if(document.getElementById('fullName').value.length > 0 && document.getElementById('email').value.length > 0)
+            addDoctor(document.getElementById('fullName').value, document.getElementById('email').value, document.getElementById('address').value, document.getElementById('specialties').value, gender, document.getElementById('regNumber').value, document.getElementById('telNumber').value).then(jsonResponse => props.history.push('/admin/dashboard/1')).catch(err => setShowAlert(true)).catch(networkError => console.log(networkError));
     }
     return (
         <div className={'content'}>
@@ -29,21 +25,22 @@ function NewDoctor(props) {
                                 Add new Doctor
                             </CardHeader>
                             <CardBody>
+                                {showAlert && <Alert color={'primary'} className={'text-center'}>This Doctor Exists</Alert>}
                                 <Form>
                                     <FormGroup row>
                                         <Col md={6}>
                                             <Label for={'fullName'}>Full Name</Label>
-                                            <Input bsSize={'sm'} onChange={value=>setFullName(value.target.value)} type={'text'} placeholder={'Type Fullname'} id={'fullName'} required/>
+                                            <Input bsSize={'sm'} type={'text'} placeholder={'Type Fullname'} id={'fullName'} required/>
                                         </Col>
                                         <Col md={6}>
                                             <Label for={'email'}>Email</Label>
-                                            <Input onChange={value=> setEmail(value.target.value)} type={'email'} placeholder={'Type Email'} id={'email'} required/>
+                                            <Input type={'email'} placeholder={'Type Email'} id={'email'} required/>
                                         </Col>
                                     </FormGroup>
                                     <FormGroup row>
                                         <Col md={6}>
                                             <Label for={'telNumber'}>Telephone Number</Label>
-                                            <Input onChange={value=> setTelNumber(value.target.value)} type={'tel'} placeholder={'Type Telephone Number'} id={'telNumber'} required/>
+                                            <Input type={'tel'} placeholder={'Type Telephone Number'} id={'telNumber'} required/>
                                         </Col>
                                         <Col md={6}>
                                             <div>
@@ -55,20 +52,20 @@ function NewDoctor(props) {
                                     <FormGroup row>
                                         <Col md={6}>
                                             <Label for={'specialties'}>Specialities</Label>
-                                            <Input type={'textarea'} onChange={value=> setSpecialties(value.target.value)} placeholder={'Type Specialities'} id={'specialties'} required/>
+                                            <Input type={'textarea'} placeholder={'Type Specialities'} id={'specialties'} required/>
                                         </Col>
                                         <Col md={6}>
                                             <Label for={'address'}>Address</Label>
-                                            <Input type={'textarea'} onChange={value=> setAddress(value.target.value)} placeholder={'Type Address'} id={'address'} required/>
+                                            <Input type={'textarea'} placeholder={'Type Address'} id={'address'} required/>
                                         </Col>
                                     </FormGroup>
                                     <FormGroup>
                                         <Label for={'regNumber'}>Register Number</Label>
-                                        <Input type={'text'} onChange={value=> setRegNumber(value.target.value)} placeholder={'Type Register Number'} id={'regNumber'} required/>
+                                        <Input type={'text'} placeholder={'Type Register Number'} id={'regNumber'} required/>
                                     </FormGroup>
                                     <FormGroup row>
                                         <Col md={1} className={'mr-4'}>
-                                            <Button onClick={addDoctorButtonHandler} color={'primary'}>Submit</Button>
+                                            <Button type={'button'} onClick={addDoctorButtonHandler} color={'primary'}>Submit</Button>
                                         </Col>
                                         <Col md={4}>
                                             <Button color={'info'}>Cancel</Button>

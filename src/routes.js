@@ -6,9 +6,10 @@ import TableList from "views/Tables.jsx";
 import Maps from "views/Map.jsx";
 import UserPage from "views/User.jsx";
 import NewDoctor from './views/NewDoctor';
+import NewPatient from './views/NewPatient';
 var routes = [
   {
-    path: "/dashboard",
+    path: "/dashboard/:pageNo",
     name: "Dashboard",
     icon: "nc-icon nc-bank",
     component: Dashboard,
@@ -16,9 +17,9 @@ var routes = [
     visible: true
   },
   {
-    path: "/icons",
-    name: "Doctor",
-    icon: "fas fa-user-md",
+    path: "/patients/:pageNo",
+    name: "Patients",
+    icon: "fas fa-procedures",
     component: Icons,
     layout: "/admin",
     visible: true
@@ -67,6 +68,12 @@ var routes = [
     path: "/new-doctor",
     component: NewDoctor,
     layout: "/admin",
+    visible : false
+  },
+  {
+    path: '/new-patient',
+    component: NewPatient,
+    layout: '/admin',
     visible : false
   }
 ];

@@ -1,4 +1,4 @@
-import { FETCH_DOCTORS } from "redux/actiontypes/actiontypes";
+import { FETCH_DOCTORS , FETCH_PATIENTS } from "redux/actiontypes/actiontypes";
 
 
 export function fetchDoctors(doctorList) {
@@ -9,5 +9,16 @@ export function fetchDoctors(doctorList) {
 
 export const asyncFetchDoctors = (doctorList) => ({
     type: FETCH_DOCTORS,
-    doctorsList : doctorList
+    doctorsList: doctorList
+});
+
+export function fetchPatients(response) {
+    return dispatch => {
+        dispatch(asyncFetchPatients(response))
+    }
+}
+
+export const asyncFetchPatients = (response) => ({
+    type: FETCH_PATIENTS,
+    patientResponse  : response
 })

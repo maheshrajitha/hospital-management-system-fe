@@ -1,8 +1,6 @@
 import React from "react";
 import {
   Card,
-  CardBody,
-  CardFooter,
   CardTitle,
   Row,
   Col,
@@ -11,18 +9,21 @@ import {
   CardHeader,
   Button,
   Dropdown,
-  DropdownToggle
+  DropdownToggle,
+  Alert,
+  DropdownItem,
+  DropdownMenu
 } from "reactstrap";
-import { getAllDoctors } from '../services/admin.services';
+import { getAllDoctors , deleteUser  } from '../services/admin.services';
 import { fetchDoctors } from '../redux/actions/admin.action';
 import { connect } from 'react-redux';
-import AddNewDoctor from '../components/modals/AddNewDoctor';
 import { Link } from "react-router-dom";
 
 class Dashboard extends React.Component {
 
   state = {
-    doctorList : []
+    showAlert: false,
+    dropdownOpen : false
   }
   constructor(props) {
     super(props);
@@ -32,126 +33,39 @@ class Dashboard extends React.Component {
   }
 
   componentDidMount() {
-    getAllDoctors().then(response => {
+    getAllDoctors(this.props.match.params.pageNo).then(response => {
       this.props.fetchDoctors(response);
-      console.log(this.props.doctorList);
     }).catch(e => console.log(e));
+    
+  }
+
+  deleteButtonHandler = (doctorId) => {
+    deleteUser(doctorId,2).then(_ => window.location.reload()).catch(_ => this.props.history.push('/')).catch(_ => this.setState({ showAlert: true })).catch(_ => this.setState({ showAlert: true }));
+  }
+
+
+  toggle = () => {
+    this.setState({
+      dropdownOpen : !this.state.dropdownOpen
+    });
   }
   
   render() {
     return (
       <>
         <div className="content">
-          <Row>
-            <Col lg="3" md="6" sm="6">
-              <Card className="card-stats">
-                <CardBody>
-                  <Row>
-                    <Col md="4" xs="5">
-                      <div className="icon-big text-center icon-warning">
-                        <i className="nc-icon nc-globe text-warning" />
-                      </div>
-                    </Col>
-                    <Col md="8" xs="7">
-                      <div className="numbers">
-                        <p className="card-category">Capacity</p>
-                        <CardTitle tag="p">150GB</CardTitle>
-                        <p />
-                      </div>
-                    </Col>
-                  </Row>
-                </CardBody>
-                <CardFooter>
-                  <hr />
-                  <div className="stats">
-                    <i className="fas fa-sync-alt" /> Update Now
-                  </div>
-                </CardFooter>
-              </Card>
-            </Col>
-            <Col lg="3" md="6" sm="6">
-              <Card className="card-stats">
-                <CardBody>
-                  <Row>
-                    <Col md="4" xs="5">
-                      <div className="icon-big text-center icon-warning">
-                        <i className="nc-icon nc-money-coins text-success" />
-                      </div>
-                    </Col>
-                    <Col md="8" xs="7">
-                      <div className="numbers">
-                        <p className="card-category">Revenue</p>
-                        <CardTitle tag="p">$ 1,345</CardTitle>
-                        <p />
-                      </div>
-                    </Col>
-                  </Row>
-                </CardBody>
-                <CardFooter>
-                  <hr />
-                  <div className="stats">
-                    <i className="far fa-calendar" /> Last day
-                  </div>
-                </CardFooter>
-              </Card>
-            </Col>
-            <Col lg="3" md="6" sm="6">
-              <Card className="card-stats">
-                <CardBody>
-                  <Row>
-                    <Col md="4" xs="5">
-                      <div className="icon-big text-center icon-warning">
-                        <i className="nc-icon nc-vector text-danger" />
-                      </div>
-                    </Col>
-                    <Col md="8" xs="7">
-                      <div className="numbers">
-                        <p className="card-category">Errors</p>
-                        <CardTitle tag="p">23</CardTitle>
-                        <p />
-                      </div>
-                    </Col>
-                  </Row>
-                </CardBody>
-                <CardFooter>
-                  <hr />
-                  <div className="stats">
-                    <i className="far fa-clock" /> In the last hour
-                  </div>
-                </CardFooter>
-              </Card>
-            </Col>
-            <Col lg="3" md="6" sm="6">
-              <Card className="card-stats">
-                <CardBody>
-                  <Row>
-                    <Col md="4" xs="5">
-                      <div className="icon-big text-center icon-warning">
-                        <i className="nc-icon nc-favourite-28 text-primary" />
-                      </div>
-                    </Col>
-                    <Col md="8" xs="7">
-                      <div className="numbers">
-                        <p className="card-category">Followers</p>
-                        <CardTitle tag="p">+45K</CardTitle>
-                        <p />
-                      </div>
-                    </Col>
-                  </Row>
-                </CardBody>
-                <CardFooter>
-                  <hr />
-                  <div className="stats">
-                    <i className="fas fa-sync-alt" /> Update now
-                  </div>
-                </CardFooter>
-              </Card>
-            </Col>
-          </Row>
+          {this.state.showAlert && <Alert color={'primary'}>Sorry We Will Fix This Soon</Alert>}
           <Row className={'mb-3'}>
             <Col md={6}>
-              <Dropdown>
-                <DropdownToggle color={'primary'}>Page</DropdownToggle>
+              <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
+                <DropdownToggle size={'sm'} color={'primary'} caret>Page</DropdownToggle>
+                <DropdownMenu>
+                  {[...Array(this.props.pages)].map((page, index) => (
+                    <DropdownItem key={index}>
+                      <a href={`/admin/dashboard/${index+1}`}>Page {index + 1}</a>
+                    </DropdownItem>
+                  ))}
+                </DropdownMenu>
               </Dropdown>
             </Col>
             <Col className={'justify-content-end'} md={6}>
@@ -186,7 +100,7 @@ class Dashboard extends React.Component {
                           <td>{doctor.tel_number}</td>
                           <td>{doctor.reg_number}</td>
                           <td>{doctor.specialities}</td>
-                          <td><Button color={'dark'}>Delete</Button></td>
+                          <td><Button onClick={()=>this.deleteButtonHandler(doctor.id)} color={'dark'}>Delete</Button></td>
                         </tr>
                       ))}
                     </tbody>
@@ -201,7 +115,8 @@ class Dashboard extends React.Component {
   }
 }
 const mapStateToProps = (state) => ({
-  doctorList: state.adminReducer.doctors
+  doctorList: state.adminReducer.doctors,
+  pages: state.adminReducer.pages
 })
 
 const mapDispatchToProps = dispatch => {

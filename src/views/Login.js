@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container, FormGroup, Input, Label, Form, Button, Card, Row, Col, Alert } from 'reactstrap';
+import { Container, FormGroup, Input, Label, Form, Button, Row, Col, Alert } from 'reactstrap';
 import { connect } from 'react-redux';
 import { loginUser } from '../redux/actions/user.action';
 import { login } from '../services/auth.services';
@@ -13,14 +13,14 @@ const Login = (props) => {
     const userLogin = () => {
         login(email, password).then(res => {
             localStorage.setItem('authToken', res.token);
-            window.location.replace('/admin/dashboard')
+            window.location.replace('/admin/dashboard/1')
         }).catch(e => setWarningShow(true)).catch(e => console.log(e));
     }
     return(
-        <div className={'vh-100'}>
+        <div className={'vh-100 login-screen-bg'}>
             <Container fluid className={'h-100'}>
                 <Row className={'h-100'}>
-                    <Col md={4} className={'align-self-center offset-md-4'}>
+                    <Col md={4} className={'align-self-center offset-md-4 bg-light'}>
                         {warningShow && <Alert color={'primary'} className={'text-center text-dark font-weight-bold mb-2'}>Wrong Email Or Password</Alert>}
                         <Form>
                             <FormGroup>
