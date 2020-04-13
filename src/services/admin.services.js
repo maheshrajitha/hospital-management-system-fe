@@ -137,3 +137,57 @@ export async function addNewPatient(patient) {
         throw e;
     })
 }
+
+export async function fetchAllPharmacists(pageNo) {
+    return fetch(`${BASE_URL}admin/all-pharmacists/${pageNo}`, {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Authorization':`Bearer ${localStorage.getItem('authToken')}`
+        }
+    }).then(response => {
+        if (response.ok)
+            return response.json();
+        else if (response.status === 401) {
+            localStorage.removeItem('authToken');
+            throw new Error('Unauthorized User');
+        }
+        else
+            throw new Error('Something Went Wrong');
+    }).catch(e => {
+        throw e;
+    })
+}
+
+export async function addNewPharmacist(pharmacist) {
+    return fetch(`${BASE_URL}admin/add-new-pharmacist`, {
+        method: 'POST',
+        body: JSON.stringify({
+            fullName: pharmacist.fullName,
+            role: 4,
+            email: pharmacist.email,
+            gender: pharmacist.gender,
+            dob: pharmacist.dob,
+            telNumber: pharmacist.telNumber,
+            address: pharmacist.address
+        }),
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+        }
+    }).then(response => {
+        if (response.ok)
+            return response.json();
+        else if (response.status === 401)
+            throw new Error('UNAUTHORIZED');
+        else if (response.status === 409)
+            throw new Error('This Email Exists');
+        else if (response.status === 400)
+            throw new Error('Please Check All Fileds');
+        else
+            throw new Error('Something Went Wrong');
+    }).catch(e => {
+        throw e;
+    })
+}

@@ -58,7 +58,7 @@ class Dashboard extends React.Component {
           <Row className={'mb-3'}>
             <Col md={6}>
               <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
-                <DropdownToggle size={'sm'} color={'primary'} caret>Page</DropdownToggle>
+                <DropdownToggle color={'primary'} caret>Page</DropdownToggle>
                 <DropdownMenu>
                   {[...Array(this.props.pages)].map((page, index) => (
                     <DropdownItem key={index}>
@@ -69,7 +69,7 @@ class Dashboard extends React.Component {
               </Dropdown>
             </Col>
             <Col className={'justify-content-end'} md={6}>
-              <Link className={'btn btn-secondary btn-sm'} to={'/admin/new-doctor'}>Add New Doctor</Link>
+              <Link className={'btn btn-secondary'} to={'/admin/new-doctor'}>Add New Doctor</Link>
             </Col>
           </Row>
           <Row>

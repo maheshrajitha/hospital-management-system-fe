@@ -1,201 +1,76 @@
-/*!
-
-=========================================================
-* Paper Dashboard React - v1.1.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/paper-dashboard-react
-* Copyright 2019 Creative Tim (https://www.creative-tim.com)
-
-* Licensed under MIT (https://github.com/creativetimofficial/paper-dashboard-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
 import React from "react";
-// react plugin used to create google maps
-import {
-  withScriptjs,
-  withGoogleMap,
-  GoogleMap,
-  Marker
-} from "react-google-maps";
-// reactstrap components
-import { Card, CardHeader, CardBody, Row, Col } from "reactstrap";
-
-const MapWrapper = withScriptjs(
-  withGoogleMap(props => (
-    <GoogleMap
-      defaultZoom={13}
-      defaultCenter={{ lat: 40.748817, lng: -73.985428 }}
-      defaultOptions={{
-        scrollwheel: false, //we disable de scroll over the map, it is a really annoing when you scroll through page
-        styles: [
-          {
-            featureType: "water",
-            stylers: [
-              {
-                saturation: 43
-              },
-              {
-                lightness: -11
-              },
-              {
-                hue: "#0088ff"
-              }
-            ]
-          },
-          {
-            featureType: "road",
-            elementType: "geometry.fill",
-            stylers: [
-              {
-                hue: "#ff0000"
-              },
-              {
-                saturation: -100
-              },
-              {
-                lightness: 99
-              }
-            ]
-          },
-          {
-            featureType: "road",
-            elementType: "geometry.stroke",
-            stylers: [
-              {
-                color: "#808080"
-              },
-              {
-                lightness: 54
-              }
-            ]
-          },
-          {
-            featureType: "landscape.man_made",
-            elementType: "geometry.fill",
-            stylers: [
-              {
-                color: "#ece2d9"
-              }
-            ]
-          },
-          {
-            featureType: "poi.park",
-            elementType: "geometry.fill",
-            stylers: [
-              {
-                color: "#ccdca1"
-              }
-            ]
-          },
-          {
-            featureType: "road",
-            elementType: "labels.text.fill",
-            stylers: [
-              {
-                color: "#767676"
-              }
-            ]
-          },
-          {
-            featureType: "road",
-            elementType: "labels.text.stroke",
-            stylers: [
-              {
-                color: "#ffffff"
-              }
-            ]
-          },
-          {
-            featureType: "poi",
-            stylers: [
-              {
-                visibility: "off"
-              }
-            ]
-          },
-          {
-            featureType: "landscape.natural",
-            elementType: "geometry.fill",
-            stylers: [
-              {
-                visibility: "on"
-              },
-              {
-                color: "#b8cb93"
-              }
-            ]
-          },
-          {
-            featureType: "poi.park",
-            stylers: [
-              {
-                visibility: "on"
-              }
-            ]
-          },
-          {
-            featureType: "poi.sports_complex",
-            stylers: [
-              {
-                visibility: "on"
-              }
-            ]
-          },
-          {
-            featureType: "poi.medical",
-            stylers: [
-              {
-                visibility: "on"
-              }
-            ]
-          },
-          {
-            featureType: "poi.business",
-            stylers: [
-              {
-                visibility: "simplified"
-              }
-            ]
-          }
-        ]
-      }}
-    >
-      <Marker position={{ lat: 40.748817, lng: -73.985428 }} />
-    </GoogleMap>
-  ))
-);
+import { Card, CardHeader, CardBody, Row, Col, Spinner, Table , Button, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from "reactstrap";
+import { fetchPharmacists } from '../redux/actions/admin.action';
+import { connect } from "react-redux";
+import { Link } from "react-router-dom";
+import { fetchAllPharmacists , deleteUser } from '../services/admin.services';
 
 class Map extends React.Component {
+
+  componentDidMount() {
+    fetchAllPharmacists(1).then(jsonResponse => {
+      this.props.fetchPharmacists(jsonResponse);
+    }).catch(e => console.log(e));
+  }
+
+  deleteButtonHandler = (pharmacistId) => {
+    deleteUser(pharmacistId, 4).then(_ => window.location.reload()).catch(_ => this.props.history.push('/')).catch(_ => this.setState({ showAlert: true })).catch(_ => this.setState({ showAlert: true }));
+  }
   render() {
     return (
       <>
         <div className="content">
           <Row>
             <Col md="12">
-              <Card>
-                <CardHeader>Google Maps</CardHeader>
-                <CardBody>
-                  <div
-                    id="map"
-                    className="map"
-                    style={{ position: "relative", overflow: "hidden" }}
-                  >
-                    <MapWrapper
-                      googleMapURL="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"
-                      loadingElement={<div style={{ height: `100%` }} />}
-                      containerElement={<div style={{ height: `100%` }} />}
-                      mapElement={<div style={{ height: `100%` }} />}
-                    />
-                  </div>
-                </CardBody>
-              </Card>
+              <Row className={'mb-5'}>
+                <Col md={6}>
+                  <Dropdown>
+                    <DropdownToggle caret>Pages</DropdownToggle>
+                    <DropdownMenu>
+                      {[...Array(this.props.pages)].map((v, index) => (
+                        <DropdownItem key={index}>{index}</DropdownItem>
+                      ))}
+                    </DropdownMenu>
+                  </Dropdown>
+                </Col>
+                <Col md={6}>
+                  <Link to={'/admin/new-pharmacist'} className={'btn btn-dark'}>Add New Pharmacist</Link>
+                </Col>
+              </Row>
+              {this.props.pharmacistList.length > 0 ?
+                <Card>
+                  <CardHeader>Pharmacists</CardHeader>
+                  <CardBody className="all-icons">
+                      <Table responsive hover>
+                        <thead>
+                          <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Gender</th>
+                            <th>DOB</th>
+                            <th>Tel Number</th>
+                            <th>Address</th>
+                            <th>Delete</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {this.props.pharmacistList.map(pharmacist => (
+                            <tr key={pharmacist.id}>
+                              <td>{pharmacist.full_name}</td>
+                              <td>{pharmacist.email}</td>
+                              <td>{pharmacist.gender}</td>
+                              <td>{pharmacist.dob}</td>
+                              <td>{pharmacist.tel_number}</td>
+                              <td>{pharmacist.address}</td>
+                              <td><Button onClick={() => this.deleteButtonHandler(pharmacist.id)} type={'button'} color={'info'}>Delete</Button></td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </Table>
+                    
+                  </CardBody>
+                </Card>
+                :<div className={'w-100 d-flex justify-content-center'}><Spinner size={'xl'}/></div>}
             </Col>
           </Row>
         </div>
@@ -204,4 +79,16 @@ class Map extends React.Component {
   }
 }
 
-export default Map;
+const mapStateToProps = (state) => ({
+  pharmacistList: state.adminReducer.pharmacistList,
+  pharmacistsPages : state.adminReducer.pharmacistsPages
+})
+
+const mapDispatchToProps = dispatch=> {
+  return {
+    fetchPharmacists : response=>dispatch(fetchPharmacists(response))
+  }
+}
+
+
+export default connect(mapStateToProps,mapDispatchToProps) (Map);

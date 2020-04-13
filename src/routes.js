@@ -7,6 +7,7 @@ import Maps from "views/Map.jsx";
 import UserPage from "views/User.jsx";
 import NewDoctor from './views/NewDoctor';
 import NewPatient from './views/NewPatient';
+import NewPharmacist from './views/NewPharmacist';
 var routes = [
   {
     path: "/dashboard/:pageNo",
@@ -25,9 +26,9 @@ var routes = [
     visible: true
   },
   {
-    path: "/maps",
-    name: "Maps",
-    icon: "nc-icon nc-pin-3",
+    path: "/pharmacist/:pageNo",
+    name: "Pharmacists",
+    icon: "fas fa-pills",
     component: Maps,
     layout: "/admin",
     visible: true
@@ -73,6 +74,12 @@ var routes = [
   {
     path: '/new-patient',
     component: NewPatient,
+    layout: '/admin',
+    visible : false
+  },
+  {
+    path: '/new-pharmacist',
+    component: NewPharmacist,
     layout: '/admin',
     visible : false
   }

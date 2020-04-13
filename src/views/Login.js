@@ -6,14 +6,15 @@ import { login } from '../services/auth.services';
 
 const Login = (props) => {
     if (localStorage.getItem('authToken') !== null)
-        window.location.replace('/admin/dashboard')
+        window.location.replace('/admin/dashboard/1')
     const [email, setEmail] = React.useState(null);
     const [password, setPassword] = React.useState(null);
     const [warningShow, setWarningShow] = React.useState(false);
     const userLogin = () => {
         login(email, password).then(res => {
             localStorage.setItem('authToken', res.token);
-            window.location.replace('/admin/dashboard/1')
+            if(res.user.role === 1)
+                window.location.replace('/admin/dashboard/1')
         }).catch(e => setWarningShow(true)).catch(e => console.log(e));
     }
     return(
