@@ -1,4 +1,4 @@
-import { FETCH_DOCTORS, FETCH_PATIENTS , FETCH_PHARMACISTS } from "../actiontypes/actiontypes";
+import { FETCH_DOCTORS, FETCH_PATIENTS , FETCH_PHARMACISTS, FETCH_STAFF_MEMBERS } from "../actiontypes/actiontypes";
 
 const initialState = {
     doctors: [],
@@ -6,7 +6,9 @@ const initialState = {
     patientList: [],
     patientPages: 0,
     pharmacistList: [],
-    pharmacistsPages : 0
+    pharmacistsPages: 0,
+    staffMembers: [],
+    staffMembersPages : 0
 }
 export const adminReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -21,6 +23,10 @@ export const adminReducer = (state = initialState, action) => {
         case FETCH_PHARMACISTS:
             state.pharmacistList = action.pharmacistsResponse.pharmacists;
             state.pharmacistsPages = action.pharmacistsResponse.pages;
+            return { ...state }
+        case FETCH_STAFF_MEMBERS:
+            state.staffMembers = action.staffMambersResponse.members;
+            state.staffMembersPages = action.staffMambersResponse.pages;
             return {...state}
         default:
             return state

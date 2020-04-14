@@ -143,7 +143,7 @@ export async function fetchAllPharmacists(pageNo) {
         method: 'GET',
         headers: {
             'Accept': 'application/json',
-            'Authorization':`Bearer ${localStorage.getItem('authToken')}`
+            'Authorization': `Bearer ${localStorage.getItem('authToken')}`
         }
     }).then(response => {
         if (response.ok)
@@ -156,7 +156,7 @@ export async function fetchAllPharmacists(pageNo) {
             throw new Error('Something Went Wrong');
     }).catch(e => {
         throw e;
-    })
+    });
 }
 
 export async function addNewPharmacist(pharmacist) {
@@ -190,4 +190,58 @@ export async function addNewPharmacist(pharmacist) {
     }).catch(e => {
         throw e;
     })
+}
+
+export async function getAllStaffMembers(pageNo) {
+    return fetch(`${BASE_URL}admin/get-staff-members/${pageNo}`, {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+        }
+    }).then(response => {
+        if (response.ok)
+            return response.json();
+        else if (response.status === 401) {
+            localStorage.removeItem('authToken');
+            throw new Error('Unauthorized User');
+        } else
+            throw new Error('Something Went Wrong');
+    }).catch(e => {
+        throw e;
+    })
+}
+
+export async function addNewStaffMember(staffMember) {
+    return fetch(`${BASE_URL}admin/add-new-staff-member`, {
+        method: 'POST',
+        body: JSON.stringify({
+            fullName: staffMember.fullName,
+            role: 5,
+            email: staffMember.email,
+            gender: staffMember.gender,
+            dob: staffMember.dob,
+            telNumber: staffMember.telNumber,
+            address: staffMember.address,
+            jobRole: staffMember.jobRole
+        }),
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+        }
+    }).then(response => {
+        if (response.ok)
+            return response.json();
+        else if (response.status === 401)
+            throw new Error('UNAUTHORIZED');
+        else if (response.status === 409)
+            throw new Error('This Email Exists');
+        else if (response.status === 400)
+            throw new Error('Please Check All Fileds');
+        else
+            throw new Error('Something Went Wrong');
+    }).catch(e => {
+        throw e;
+    });
 }

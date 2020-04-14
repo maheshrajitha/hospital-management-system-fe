@@ -53,7 +53,7 @@ class Header extends React.Component {
   getBrand() {
     let brandName = "HMS";
     routes.map((prop, key) => {
-      if (window.location.href.indexOf(prop.layout + prop.path) !== -1) {
+      if (window.location.href.indexOf(prop.layout + prop.path.replace(':pageNo',1)) !== -1) {
         brandName = prop.name;
       }
       return null;

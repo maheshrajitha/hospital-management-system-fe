@@ -2,7 +2,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import { Nav } from "reactstrap";
-// javascript plugin used to create scrollbars on windows
 import PerfectScrollbar from "perfect-scrollbar";
 
 
@@ -16,7 +15,8 @@ class Sidebar extends React.Component {
   }
   // verifies if routeName is the one active (in browser input)
   activeRoute(routeName) {
-    return this.props.location.pathname.indexOf(routeName) > -1 ? "active" : "";
+    console.log(routeName);
+    return this.props.location.pathname.indexOf(routeName.replace(':pageNo',1)) > -1 ? "active" : "";
   }
   componentDidMount() {
     if (navigator.platform.indexOf("Win") > -1) {

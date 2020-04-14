@@ -2,11 +2,12 @@
 import React from "react";
 
 // reactstrap components
-import { Card, CardHeader, CardBody, CardTitle, Row, Col, Table, Spinner, Button, Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Alert } from "reactstrap";
+import { Card, CardHeader, CardBody, CardTitle, Row, Col, Table, Spinner, Button, Alert } from "reactstrap";
 import { fetchPatients } from '../redux/actions/admin.action';
 import { connect } from "react-redux";
 import { getAllPatients , deleteUser } from '../services/admin.services';
 import { Link } from "react-router-dom";
+import PagesDropdown from "components/util/PagesDropdown";
 class Icons extends React.Component {
   state = {
     toggle: false,
@@ -44,19 +45,10 @@ class Icons extends React.Component {
             <Col md="12">
               <Row>
                 <Col md={6}>
-                  <Dropdown toggle={this.toggle} isOpen={this.state.toggle}>
-                    <DropdownToggle caret size={'sm'}>Pages</DropdownToggle>
-                    <DropdownMenu>
-                      {[...Array(this.props.pages)].map((v, index) => (
-                        <DropdownItem key={index}>
-                          <Link to={'admin/patients/'+index+1}>Page {index+1}</Link>
-                        </DropdownItem>
-                      ))}
-                    </DropdownMenu>
-                  </Dropdown>
+                  <PagesDropdown size={this.props.pages}/>
                 </Col>
                 <Col md={6}>
-                  <Link to={'/admin/new-patient'} className={'btn btn-info btn-sm'}>Add New patient</Link>
+                  <Link to={'/admin/new-patient'} className={'btn btn-dark'}>Add New patient</Link>
                 </Col>
               </Row>
               <Card className="demo-icons">

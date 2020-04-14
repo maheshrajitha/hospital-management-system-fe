@@ -8,16 +8,13 @@ import {
   Table,
   CardHeader,
   Button,
-  Dropdown,
-  DropdownToggle,
   Alert,
-  DropdownItem,
-  DropdownMenu
 } from "reactstrap";
 import { getAllDoctors , deleteUser  } from '../services/admin.services';
 import { fetchDoctors } from '../redux/actions/admin.action';
 import { connect } from 'react-redux';
 import { Link } from "react-router-dom";
+import PagesDropdown from "components/util/PagesDropdown";
 
 class Dashboard extends React.Component {
 
@@ -57,16 +54,7 @@ class Dashboard extends React.Component {
           {this.state.showAlert && <Alert color={'primary'}>Sorry We Will Fix This Soon</Alert>}
           <Row className={'mb-3'}>
             <Col md={6}>
-              <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
-                <DropdownToggle color={'primary'} caret>Page</DropdownToggle>
-                <DropdownMenu>
-                  {[...Array(this.props.pages)].map((page, index) => (
-                    <DropdownItem key={index}>
-                      <a href={`/admin/dashboard/${index+1}`}>Page {index + 1}</a>
-                    </DropdownItem>
-                  ))}
-                </DropdownMenu>
-              </Dropdown>
+              <PagesDropdown size={this.props.pages}/>
             </Col>
             <Col className={'justify-content-end'} md={6}>
               <Link className={'btn btn-secondary'} to={'/admin/new-doctor'}>Add New Doctor</Link>

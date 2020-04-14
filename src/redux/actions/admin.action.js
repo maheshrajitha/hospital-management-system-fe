@@ -1,4 +1,5 @@
 import { FETCH_DOCTORS , FETCH_PATIENTS , FETCH_PHARMACISTS } from "redux/actiontypes/actiontypes";
+import { FETCH_STAFF_MEMBERS } from "redux/actiontypes/actiontypes";
 
 
 export function fetchDoctors(doctorList) {
@@ -33,3 +34,14 @@ export const asyncFetchPharmacists = (response) => ({
     type: FETCH_PHARMACISTS,
     pharmacistsResponse : response
 });
+
+export const asyncFetchStaffMembers = (response) => ({
+    type: FETCH_STAFF_MEMBERS,
+    staffMambersResponse : response
+});
+
+export function fetchStaffMembers(response) {
+    return dispatch => {
+        dispatch(asyncFetchStaffMembers(response))
+    }
+}

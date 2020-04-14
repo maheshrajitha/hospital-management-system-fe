@@ -1,5 +1,6 @@
 import React from "react";
-import { Card, CardHeader, CardBody, Row, Col, Spinner, Table , Button, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from "reactstrap";
+import { Card, CardHeader, CardBody, Row, Col, Spinner, Table, Button } from "reactstrap";
+import PagesDropdown from '../components/util/PagesDropdown';
 import { fetchPharmacists } from '../redux/actions/admin.action';
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
@@ -8,7 +9,8 @@ import { fetchAllPharmacists , deleteUser } from '../services/admin.services';
 class Map extends React.Component {
 
   componentDidMount() {
-    fetchAllPharmacists(1).then(jsonResponse => {
+    fetchAllPharmacists(this.props.match.params.pageNo).then(jsonResponse => {
+      console.log(jsonResponse);
       this.props.fetchPharmacists(jsonResponse);
     }).catch(e => console.log(e));
   }
@@ -24,14 +26,7 @@ class Map extends React.Component {
             <Col md="12">
               <Row className={'mb-5'}>
                 <Col md={6}>
-                  <Dropdown>
-                    <DropdownToggle caret>Pages</DropdownToggle>
-                    <DropdownMenu>
-                      {[...Array(this.props.pages)].map((v, index) => (
-                        <DropdownItem key={index}>{index}</DropdownItem>
-                      ))}
-                    </DropdownMenu>
-                  </Dropdown>
+                  <PagesDropdown size={this.props.pages}/>
                 </Col>
                 <Col md={6}>
                   <Link to={'/admin/new-pharmacist'} className={'btn btn-dark'}>Add New Pharmacist</Link>
@@ -81,7 +76,7 @@ class Map extends React.Component {
 
 const mapStateToProps = (state) => ({
   pharmacistList: state.adminReducer.pharmacistList,
-  pharmacistsPages : state.adminReducer.pharmacistsPages
+  pages: state.adminReducer.pharmacistsPages
 })
 
 const mapDispatchToProps = dispatch=> {
