@@ -32,10 +32,13 @@ import "perfect-scrollbar/css/perfect-scrollbar.css";
 import './assets/css/site.css';
 import Login from './views/Login';
 import AdminLayout from "layouts/Admin";
+import DoctorLayout from './layouts/Doctor';
+import { loginToPatient } from './routes';
+import { doctorReducer } from "redux/reducers/doctor.reducer";
 
 const hist = createBrowserHistory();
 
-const store = createStore(combineReducers({adminReducer : adminReducer , userReducer : userReducer}), applyMiddleware(thunk));
+const store = createStore(combineReducers({adminReducer : adminReducer , userReducer : userReducer , doctorReducer : doctorReducer}), applyMiddleware(thunk));
 
 ReactDOM.render(
   <Provider store={store}>
@@ -43,6 +46,8 @@ ReactDOM.render(
       <Switch>
         <Route path="/" component={Login} exact/>
         <Route path="/admin" render={props => <AdminLayout {...props} />} />
+        <Route path={'/doctor'} render={props => <DoctorLayout {...props} />} />
+        <Route path={loginToPatient.path} render={props => <loginToPatient.component {...props}/>} exact/>
       </Switch>
     </Router>
   </Provider>,

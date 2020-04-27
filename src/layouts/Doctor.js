@@ -7,17 +7,19 @@ import { Route, Switch } from "react-router-dom";
 import DemoNavbar from "components/Navbars/DemoNavbar.jsx";
 import Sidebar from "components/Sidebar/Sidebar.jsx";
 
-import {routes} from '../routes';
+import {doctorRoutes} from '../routes';
 
 var ps;
 
-class Dashboard extends React.Component {
+class DoctorDashboard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       backgroundColor: "black",
       activeColor: "info"
     };
+    if (localStorage.getItem('authToken') === null)
+      window.location.replace('/');
     this.mainPanel = React.createRef();
   }
   componentDidMount() {
@@ -49,20 +51,20 @@ class Dashboard extends React.Component {
       <div className="wrapper">
         <Sidebar
           {...this.props}
-          routes={routes}
+          routes={doctorRoutes}
           bgColor={this.state.backgroundColor}
           activeColor={this.state.activeColor}
         />
         <div className="main-panel" ref={this.mainPanel}>
           <DemoNavbar {...this.props} />
           <Switch>
-            {routes.map((prop, key) => {
+            {doctorRoutes.map((prop, key) => {
               return (
                 <Route
                   path={prop.layout + prop.path}
                   component={prop.component}
                   key={key}
-                />
+                /> 
               );
             })}
           </Switch>
@@ -73,4 +75,4 @@ class Dashboard extends React.Component {
   }
 }
 
-export default Dashboard;
+export default DoctorDashboard;

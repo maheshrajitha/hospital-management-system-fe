@@ -8,6 +8,7 @@ import { connect } from "react-redux";
 import { getAllPatients , deleteUser } from '../services/admin.services';
 import { Link } from "react-router-dom";
 import PagesDropdown from "components/util/PagesDropdown";
+import UpdatePatient from "components/modals/UpdatePatient";
 class Icons extends React.Component {
   state = {
     toggle: false,
@@ -68,6 +69,7 @@ class Icons extends React.Component {
                           <th>Tel Number</th>
                           <th>Address</th>
                           <th>Delete</th>
+                          <th>Update</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -80,7 +82,8 @@ class Icons extends React.Component {
                             <td>{patient.dob}</td>
                             <td>{patient.tel_number}</td>
                             <td>{patient.address}</td>
-                            <td><Button onClick={()=>this.deleteButtonHandler(patient.id)} type={'button'} color={'info'}>Delete</Button></td>
+                            <td><Button onClick={() => this.deleteButtonHandler(patient.id)} type={'button'} color={'info'}>Delete</Button></td>
+                            <td><UpdatePatient id={patient.id}/></td>
                           </tr>
                         ))}
                       </tbody>

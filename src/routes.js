@@ -6,7 +6,11 @@ import NewDoctor from './views/NewDoctor';
 import NewPatient from './views/NewPatient';
 import NewPharmacist from './views/NewPharmacist';
 import { NewStaffMember } from "views/NewStaffMember";
-var routes = [
+import LoginToPatient from './views/doctor/LoginToPatient';
+import AddPrescription from './views/doctor/AddPrescription';
+import MyPrescriptions from './views/doctor/MyPrescriptions';
+import UpdatePresciption from './views/doctor/UpdatePrescription';
+export const routes = [
   {
     path: "/dashboard/:pageNo",
     name: "Dashboard",
@@ -65,5 +69,49 @@ var routes = [
   }
 ];
 
+export const doctorRoutes = [
+  {
+    path: '/add-prescription',
+    component: AddPrescription,
+    visible: true,
+    layout: '/doctor',
+    name: 'Add Prescription',
+    icon: 'fas fa-file-medical'
+  },
+  {
+    path: '/my-prescriptions',
+    component: MyPrescriptions,
+    visible: true,
+    layout: '/doctor',
+    name: 'My Prescriptions',
+    icon: 'fas fa-th-list'
+  },
+  {
+    path: '/update-prescription/:prescriptionId',
+    component: UpdatePresciption,
+    visible: false,
+    layout: '/doctor',
+    name: 'My Prescriptions',
+    icon: 'fas fa-th-list'
+  },
+];
 
-export default routes;
+export const doctorPatientRoutes = [
+  {
+    path: '/add-prescription',
+    component: AddPrescription,
+    visible: true,
+    layout: '/patient',
+    name: 'Add Prescription',
+    icon: 'fas fa-user-alt'
+  }
+]
+
+export const loginToPatient = {
+  path: "/login-to-patient/",
+  component: LoginToPatient,
+  visible: false
+}
+
+
+// export default routes;

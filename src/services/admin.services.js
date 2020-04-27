@@ -1,5 +1,5 @@
 import { BASE_URL } from "variables/values";
-
+import axios from 'axios';
 export async function getAllDoctors(pageNo) {
     return fetch(`${BASE_URL}admin/all-doctors/${pageNo}`, {
         method: 'GET',
@@ -243,5 +243,52 @@ export async function addNewStaffMember(staffMember) {
             throw new Error('Something Went Wrong');
     }).catch(e => {
         throw e;
+    });
+}
+export function getById(role, id) {
+    return axios.get(`${BASE_URL}admin/get-role-and-id/${role}/${id}`, {
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+        }
+    }).then(response => response.data).catch(e => {
+        throw e;
+    })
+}
+
+export function updateDoctor(doctor) {
+    return axios.patch(`${BASE_URL}admin/update-doctor`, doctor, {
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+        }
+    }).then(response => response.data).catch(e => {
+        throw e;
+    });
+}
+
+export function updatePatient(patient) {
+    return axios.patch(`${BASE_URL}admin/update-patient`, patient, {
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+        }
+    }).then(response => response.data).catch(e => { throw e });
+}
+
+export function updatePharmacist(pharmacist) {
+    return axios.patch(`${BASE_URL}admin/update-pharmacist`, pharmacist, {
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+        }
+    }).then(response => response.data).catch(err => {
+        throw err
+    });
+}
+
+export function updateStaffMember(staffMember) {
+    return axios.patch(`${BASE_URL}admin/update-staff-member`, staffMember, {
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+        }
+    }).then(response => response.data).catch(err => {
+        throw err
     });
 }

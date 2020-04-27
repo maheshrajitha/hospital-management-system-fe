@@ -4,7 +4,8 @@ import PagesDropdown from '../components/util/PagesDropdown';
 import { fetchPharmacists } from '../redux/actions/admin.action';
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { fetchAllPharmacists , deleteUser } from '../services/admin.services';
+import { fetchAllPharmacists, deleteUser } from '../services/admin.services';
+import UpdatPharmacist from '../components/modals/UpdatePharmacist';
 
 class Map extends React.Component {
 
@@ -46,6 +47,7 @@ class Map extends React.Component {
                             <th>Tel Number</th>
                             <th>Address</th>
                             <th>Delete</th>
+                            <th>Update</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -58,6 +60,7 @@ class Map extends React.Component {
                               <td>{pharmacist.tel_number}</td>
                               <td>{pharmacist.address}</td>
                               <td><Button onClick={() => this.deleteButtonHandler(pharmacist.id)} type={'button'} color={'info'}>Delete</Button></td>
+                              <td><UpdatPharmacist id={pharmacist.id}/></td>
                             </tr>
                           ))}
                         </tbody>

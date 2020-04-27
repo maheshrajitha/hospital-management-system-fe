@@ -3,6 +3,9 @@ import { Container, FormGroup, Input, Label, Form, Button, Row, Col, Alert } fro
 import { connect } from 'react-redux';
 import { loginUser } from '../redux/actions/user.action';
 import { login } from '../services/auth.services';
+import { withRouter } from 'react-router';
+import { getMyPrescriptions } from '../redux/actions/doctor.action';
+
 
 const Login = (props) => {
     if (localStorage.getItem('authToken') !== null)
@@ -13,8 +16,16 @@ const Login = (props) => {
     const userLogin = () => {
         login(email, password).then(res => {
             localStorage.setItem('authToken', res.token);
-            if(res.user.role === 1)
-                window.location.replace('/admin/dashboard/1')
+            if (res.user.role === 1)
+                window.location.replace('/admin/dashboard/1');
+            else if (res.user.role === 2) {
+                props.history.replace('login-to-patient');
+                // getMyPrescription().then(response => {
+                //     props.setPrescriptions(response);
+                //     props.history.replace('doctor/my-prescriptions')
+                // }).catch(e => console.log(e));
+                //window.location.replace('');
+            }
         }).catch(e => setWarningShow(true)).catch(e => console.log(e));
     }
     return(
@@ -48,8 +59,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = dispatch=> {
     return {
-        login: user => dispatch(loginUser(user))
+        login: user => dispatch(loginUser(user)),
     }
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(Login);
+export default withRouter(connect(mapStateToProps,mapDispatchToProps)(Login));

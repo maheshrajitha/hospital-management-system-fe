@@ -15,6 +15,7 @@ import { fetchDoctors } from '../redux/actions/admin.action';
 import { connect } from 'react-redux';
 import { Link } from "react-router-dom";
 import PagesDropdown from "components/util/PagesDropdown";
+import UpdateDoctor from "components/modals/UpdateDoctor";
 
 class Dashboard extends React.Component {
 
@@ -68,7 +69,7 @@ class Dashboard extends React.Component {
                     <CardTitle tag="h4">Available Doctors</CardTitle>
                   </CardHeader>
                   <Table responsive bordered>
-                    <thead className={'text-primary'}>
+                    <thead>
                       <tr>
                         <th>Name</th>
                         <th>Email</th>
@@ -77,6 +78,7 @@ class Dashboard extends React.Component {
                         <th>Reg Number</th>
                         <th>Specialities</th>
                         <th>Delete</th>
+                        <th>Update</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -88,7 +90,10 @@ class Dashboard extends React.Component {
                           <td>{doctor.tel_number}</td>
                           <td>{doctor.reg_number}</td>
                           <td>{doctor.specialities}</td>
-                          <td><Button onClick={()=>this.deleteButtonHandler(doctor.id)} color={'dark'}>Delete</Button></td>
+                          <td><Button onClick={() => this.deleteButtonHandler(doctor.id)} color={'dark'}>Delete</Button></td>
+                          <td>
+                            <UpdateDoctor id={doctor.id}/>
+                          </td>
                         </tr>
                       ))}
                     </tbody>

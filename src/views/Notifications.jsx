@@ -16,7 +16,7 @@ import { connect } from "react-redux";
 import PagesDropdown from "../components/util/PagesDropdown";
 import { Link } from "react-router-dom";
 import { getAllStaffMembers ,deleteUser } from '../services/admin.services';
-
+import UpdateStaffMember from '../components/modals/UpdateStaffMember';
 class Notifications extends React.Component {
   state = {
     visible: true
@@ -64,6 +64,7 @@ class Notifications extends React.Component {
                             <th>Tel Number</th>
                             <th>Address</th>
                             <th>Delete</th>
+                            <th>Update</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -76,6 +77,7 @@ class Notifications extends React.Component {
                               <td>{member.tel_number}</td>
                               <td>{member.address}</td>
                               <td><Button color={'primary'} onClick={() => this.deleteButtonHandler(member.id)}>Delete</Button></td>
+                              <td><UpdateStaffMember id={member.id}/></td>
                             </tr>
                           )}
                         </tbody>
