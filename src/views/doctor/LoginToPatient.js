@@ -11,12 +11,15 @@ class LoginToPatient extends Component {
         error : null
     }
     loginButtonHandler = () => {
-        loginToPatientProfile({ email: document.getElementById('email').value, password: document.getElementById('password').value }).then(res => {
+        loginToPatientProfile({ id: document.getElementById('id').value }).then(res => {
             this.props.setPatient(res);
             this.props.history.push('/doctor/add-prescription');
-        }).catch(e => this.setState({
-            error : e.message
-        }));
+        }).catch(e => {
+            console.log(e.response);
+            this.setState({
+                error : e.response.data.MESSAGE
+            })
+        });
     }
     render() {
         return (
@@ -31,15 +34,11 @@ class LoginToPatient extends Component {
                         <Col md={4} className={'align-self-center offset-md-4'}>
                             <Card className={'bg-light'}>
                                 <CardBody>
-                                    {this.state.error !== null &&<Alert>Wrong Email Or Password</Alert>}
+                                    {this.state.error !== null &&<Alert>{this.state.error}</Alert>}
                                     <Form>
                                         <FormGroup>
-                                            <Label>Patient Email</Label>
-                                            <Input type={'text'} placeholder={'Type Patient Email Address'} id={'email'}/>
-                                        </FormGroup>
-                                        <FormGroup>
-                                            <Label>Patient Password</Label>
-                                            <Input type={'password'} placeholder={'Type Patient Password'} id={'password'}/>
+                                            <Label>Patient ID</Label>
+                                            <Input type={'text'} placeholder={'Enter Patient ID'} id={'id'}/>
                                         </FormGroup>
                                         <FormGroup>
                                             <Button onClick={this.loginButtonHandler} color={'primary'}>Login</Button>

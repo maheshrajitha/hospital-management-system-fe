@@ -29,7 +29,7 @@ export const NewPharmacist = (props) => {
                                 <FormGroup row>
                                     <Col md={6}>
                                         <Label for={'fullName'}>fullname</Label>
-                                        <Input type={'text'} id={'fullName'} placeholder={'Type Patient Name'}/>
+                                        <Input type={'text'} id={'fullName'} placeholder={'Type Fullname Name'}/>
                                     </Col>
                                     <Col md={6}>
                                         <Label for={'email'}>Email</Label>

@@ -2,14 +2,22 @@ import React from 'react'
 import { Container, FormGroup, Input, Label, Form, Button, Row, Col, Alert } from 'reactstrap';
 import { connect } from 'react-redux';
 import { loginUser } from '../redux/actions/user.action';
-import { login } from '../services/auth.services';
+import { login , validateToken } from '../services/auth.services';
 import { withRouter } from 'react-router';
-import { getMyPrescriptions } from '../redux/actions/doctor.action';
 
 
 const Login = (props) => {
-    if (localStorage.getItem('authToken') !== null)
-        window.location.replace('/admin/dashboard/1')
+    if (localStorage.getItem('authToken') !== null) {
+        validateToken().then(res => {
+            if (res.role === 1)
+                window.location.replace('/admin/dashboard/1');
+            else if (res.role === 2) {
+                window.location.replace('/login-to-patient');
+            } else if (res.role === 3) {
+                window.location.replace('/patient/my-prescriptions/1');
+            }
+        })
+    }
     const [email, setEmail] = React.useState(null);
     const [password, setPassword] = React.useState(null);
     const [warningShow, setWarningShow] = React.useState(false);
@@ -20,12 +28,10 @@ const Login = (props) => {
                 window.location.replace('/admin/dashboard/1');
             else if (res.user.role === 2) {
                 props.history.replace('login-to-patient');
-                // getMyPrescription().then(response => {
-                //     props.setPrescriptions(response);
-                //     props.history.replace('doctor/my-prescriptions')
-                // }).catch(e => console.log(e));
-                //window.location.replace('');
-            }
+            } else if (res.user.role === 3)
+                props.history.replace('/patient/my-prescriptions/1');
+            else if (res.user.role === 4)
+                props.history.replace('get-patient-by-id');
         }).catch(e => setWarningShow(true)).catch(e => console.log(e));
     }
     return(

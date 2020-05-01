@@ -33,7 +33,9 @@ import './assets/css/site.css';
 import Login from './views/Login';
 import AdminLayout from "layouts/Admin";
 import DoctorLayout from './layouts/Doctor';
-import { loginToPatient } from './routes';
+import PatientLayout from './layouts/Patient';
+import PharmacistLayout from './layouts/Pharmacist';
+import { loginToPatient , getPatientById } from './routes';
 import { doctorReducer } from "redux/reducers/doctor.reducer";
 
 const hist = createBrowserHistory();
@@ -47,7 +49,10 @@ ReactDOM.render(
         <Route path="/" component={Login} exact/>
         <Route path="/admin" render={props => <AdminLayout {...props} />} />
         <Route path={'/doctor'} render={props => <DoctorLayout {...props} />} />
-        <Route path={loginToPatient.path} render={props => <loginToPatient.component {...props}/>} exact/>
+        <Route path={loginToPatient.path} render={props => <loginToPatient.component {...props} />} exact />
+        <Route path={'/patient'} render={props => <PatientLayout {...props} />} />
+        <Route path={getPatientById.path} render={props => <getPatientById.component {...props} />} exact />
+        <Route path={'/pharmacist'} render={props=> <PharmacistLayout {...props}/>}/>
       </Switch>
     </Router>
   </Provider>,

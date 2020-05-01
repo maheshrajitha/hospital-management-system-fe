@@ -42,7 +42,7 @@ const NewPatient = (props) => {
                                         </Col>
                                         <Col md={6}>
                                             <Label for={'email'}>Email</Label>
-                                            <Input type={'email'} id={'email'} placeholder={'Type Email ADdress'} required/>
+                                            <Input type={'email'} id={'email'} placeholder={'Type Email Address'} required/>
                                         </Col>
                                     </FormGroup>
                                     <FormGroup row>

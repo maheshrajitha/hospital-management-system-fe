@@ -2,7 +2,7 @@ import React from 'react'
 import { Container, Card, CardHeader, CardBody, Row, Col, Form, FormGroup, Label, Input, CustomInput, Button, Collapse, Table } from 'reactstrap'
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
-import { addPrescription , getPrescriptionByPatient } from '../../services/doctor.services';
+import { addPrescription , getPrescriptionByPatient , deletePrescription } from '../../services/doctor.services';
 import { Link } from 'react-router-dom';
 
 function AddPrescription(props) {
@@ -17,6 +17,14 @@ function AddPrescription(props) {
         fileReader.onloadend = function () {
             setImage(fileReader.result.split(',')[1]);
         }
+    }
+
+    const deleteButtonHandler = (id) => {
+        deletePrescription(id).then(_ => {
+            props.history.push('my-prescriptions');
+        }).catch(e => {
+            console.log(e.response.data.MESSAGE); 
+        });
     }
 
     const addPrescriptionButtonHandler = () => {
@@ -94,7 +102,7 @@ function AddPrescription(props) {
                                                 <td>{index + 1}</td>
                                                 <td>{prescription.issued_date}</td>
                                                 <td>{prescription.comment}</td>
-                                                <td><Button color={'danger'} outline>Delete</Button></td>
+                                                <td><Button onClick={()=> deleteButtonHandler(prescription.id)} color={'danger'} outline>Delete</Button></td>
                                                 <td><Link className={'btn btn-dark btn-sm'} to={'update-prescription/'+prescription.id}>Update</Link></td>
                                             </tr>
                                         ))}

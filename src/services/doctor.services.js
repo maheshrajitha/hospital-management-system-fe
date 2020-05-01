@@ -3,8 +3,7 @@ import { BASE_URL } from 'variables/values';
 
 export function loginToPatientProfile(credentials) {
     return axios.post(`${BASE_URL}doctor/get-patient-by-email`, {
-        email: credentials.email,
-        password: credentials.password
+        id: credentials.id,
     }, {
         headers: {
             'Authorization': `Bearer ${localStorage.getItem('authToken')}`

@@ -10,6 +10,9 @@ import LoginToPatient from './views/doctor/LoginToPatient';
 import AddPrescription from './views/doctor/AddPrescription';
 import MyPrescriptions from './views/doctor/MyPrescriptions';
 import UpdatePresciption from './views/doctor/UpdatePrescription';
+import PatientPrescription from './views/patient/MyPrescriptions';
+import ViewPrescription from './views/pharnacist/ViewPrescriptions';
+import GetPatientById from './views/pharnacist/GetPatient';
 export const routes = [
   {
     path: "/dashboard/:pageNo",
@@ -96,6 +99,28 @@ export const doctorRoutes = [
   },
 ];
 
+export const pharmacistRoutes = [
+  {
+    path: '/prescription',
+    component: ViewPrescription,
+    visible: true,
+    layout: '/pharmacist',
+    name: 'My Prescriptions',
+    icon: 'fas fa-th-list'
+  },
+]
+
+export const patientRoutes = [
+  {
+    path: '/my-prescriptions/:pageNo',
+    component: PatientPrescription,
+    visible: true,
+    layout: '/patient',
+    name: 'My Prescriptions',
+    icon: 'fas fa-th-list'
+  },
+]
+
 export const doctorPatientRoutes = [
   {
     path: '/add-prescription',
@@ -110,6 +135,12 @@ export const doctorPatientRoutes = [
 export const loginToPatient = {
   path: "/login-to-patient/",
   component: LoginToPatient,
+  visible: false
+}
+
+export const getPatientById = {
+  path: "/get-patient-by-id/",
+  component: GetPatientById,
   visible: false
 }
 

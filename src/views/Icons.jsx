@@ -61,6 +61,7 @@ class Icons extends React.Component {
                     <Table responsive hover>
                       <thead>
                         <tr>
+                          <th>ID</th>
                           <th>Name</th>
                           <th>NIC</th>
                           <th>Email</th>
@@ -75,6 +76,7 @@ class Icons extends React.Component {
                       <tbody>
                         {this.props.patientList.map(patient => (
                           <tr key={patient.id}>
+                            <td>{patient.id}</td>
                             <td>{patient.full_name}</td>
                             <td>{patient.nic}</td>
                             <td>{patient.email}</td>
