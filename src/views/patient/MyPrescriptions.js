@@ -2,6 +2,7 @@ import React from 'react'
 import { Row, Col, Spinner, Card, CardHeader, CardBody, Table, Alert } from 'reactstrap';
 import { getMyPrescriptions } from '../../services/patient.service';
 import PagesDropdown from 'components/util/PagesDropdown';
+import ImageView from '../../components/modals/ImageView';
 
 export default function MyPrescriptions(props) {
     const [prescriptionList, setPrescriptionList] = React.useState([]);
@@ -46,7 +47,9 @@ export default function MyPrescriptions(props) {
                                         {prescriptionList.map((prescription, index) => <tr key={index}>
                                             <td>{index + 1}</td>
                                             <td>{prescription.issued_date}</td>
-                                            <td><img src={prescription.image_url} width={100} height={100} alt={'...'}/></td>
+                                            <td>
+                                                <ImageView imageUrl={prescription.image_url}/>
+                                            </td>
                                             <td>{prescription.comment}</td>
                                         </tr>)}
                                     </tbody>

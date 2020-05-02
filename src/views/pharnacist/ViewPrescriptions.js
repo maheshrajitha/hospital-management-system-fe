@@ -2,6 +2,7 @@ import React from 'react'
 import { Row, Col, Spinner, Table } from 'reactstrap';
 import { getPrescriptionByPatient } from '../../services/pharmacist.services';
 import { connect } from 'react-redux';
+import ImageView from '../../components/modals/ImageView';
 
 function ViewPrescriptions(props) {
     const [patientList, setPatientList] = React.useState([]);
@@ -24,8 +25,9 @@ function ViewPrescriptions(props) {
                             <thead>
                                 <tr>
                                     <th> #</th>
-                                    <th>Patient ID</th>
+                                    <th>Prescription ID</th>
                                     <th>Prescription</th>
+                                    <th>Issued Date</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -33,7 +35,7 @@ function ViewPrescriptions(props) {
                                     <td>{index + 1}</td>
                                     <td>{patient.patient_id}</td>
                                     <td>
-                                        <img src={patient.image_url} height={50} width={50} alt={index} />
+                                        <ImageView imageUrl={patient.image_url}/>
                                     </td>
                                 </tr>)}
                             </tbody>

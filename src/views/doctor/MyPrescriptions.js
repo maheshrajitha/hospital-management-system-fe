@@ -3,7 +3,7 @@ import { Row, Col, Table, Card, CardBody, Button, Spinner } from 'reactstrap'
 import { connect } from 'react-redux';
 import { getMyPrescription , deletePrescription } from '../../services/doctor.services';
 import { getMyPrescriptions } from '../../redux/actions/doctor.action';
-
+import ImageView from '../../components/modals/ImageView';
 function MyPrescriptions(props) {
     React.useEffect(() => {
         getMyPrescription().then(response => {
@@ -45,7 +45,7 @@ function MyPrescriptions(props) {
                                                         {prescription.comment}
                                                     </td>
                                                     <td>
-                                                        <img src={prescription.image_url} height={50} width={50} alt={index} />
+                                                        <ImageView imageUrl={prescription.image_url}/>
                                                     </td>
                                                     <td>
                                                         {prescription.full_name}
