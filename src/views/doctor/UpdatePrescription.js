@@ -21,13 +21,15 @@ function UpdatePrescription(props) {
         getPrescriptionById(props.match.params.prescriptionId).then(prescription => {
             setPrescription(prescription);
             setPreviewUrl(prescription.image_url);
+            console.log(prescription);
         }).catch(e => console.log(e));
     }, []);
     const updateButtonHandler = () => {
         let prescription = {
             id: props.match.params.prescriptionId,
             comment: document.getElementById('comment').value,
-            prescription: image
+            prescription: image,
+            prescriptionDetails: document.getElementById('prescriptionDetails').value,
         }
         updatePrescription(prescription).then(_ => props.history.replace('/doctor/add-prescription')).catch(e => console.log(e));
     }
@@ -45,6 +47,10 @@ function UpdatePrescription(props) {
                                         <FormGroup>
                                             <Label for={'comment'}>Comment</Label>
                                             <Input type={'textarea'} placeholder={'Type Comment'} id={'comment'} defaultValue={prescription !== null ? prescription.comment : null} required/>
+                                        </FormGroup>
+                                        <FormGroup>
+                                            <Label for={'prescriptionDetails'}>Prescription</Label>
+                                            <Input type={'textarea'} placeholder={'Type Prescription'} id={'prescriptionDetails'} defaultValue={prescription.prescription} required/>
                                         </FormGroup>
                                         <FormGroup style={{minHeight : 250}} className={'bg-light d-flex align-items-center justify-content-center'}>
                                             <Label for={'prescription'}>

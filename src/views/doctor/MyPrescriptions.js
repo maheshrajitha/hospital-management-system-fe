@@ -7,6 +7,7 @@ import ImageView from '../../components/modals/ImageView';
 function MyPrescriptions(props) {
     React.useEffect(() => {
         getMyPrescription().then(response => {
+            console.log(response);
             props.setPrescriptions(response);
         }).catch(e => console.log(e));
         // console.log('hello');
@@ -40,12 +41,13 @@ function MyPrescriptions(props) {
                                         <tbody>
                                             {props.prescriptions.map((prescription, index) => (
                                                 <tr key={index}>
+                                                    {console.log(prescription)}
                                                     <td>{index + 1}</td>
                                                     <td>
                                                         {prescription.comment}
                                                     </td>
                                                     <td>
-                                                        <ImageView imageUrl={prescription.image_url}/>
+                                                        <ImageView imageUrl={prescription.image_url} prescription={prescription.prescription}/>
                                                     </td>
                                                     <td>
                                                         {prescription.full_name}

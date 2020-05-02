@@ -31,7 +31,8 @@ function AddPrescription(props) {
         let newPrescription = {
             comment: document.getElementById('comment').value,
             prescription: image,
-            patientId: props.patient.id
+            patientId: props.patient.id,
+            prescriptionDetails: document.getElementById('prescriptionDetails').value,
         }
         addPrescription(newPrescription).then(res => {
             props.history.push('my-prescriptions');
@@ -68,6 +69,10 @@ function AddPrescription(props) {
                                                 <Label for={'comment'}>Comment</Label>
                                                 <Input type={'textarea'} id={'comment'} placeholder={'Type Comment'}/>
                                             </FormGroup>
+                                            <FormGroup>
+                                                <Label for={'prescriptionDetails'}>Prescription</Label>
+                                                <Input type={'textarea'} id={'prescriptionDetails'} placeholder={'Type Prescription'} required/>
+                                            </FormGroup>
                                             <FormGroup style={{minHeight : 250}} className={'bg-light d-flex align-items-center justify-content-center'}>
                                                 <Label for={'prescription'}>
                                                     <img src={previewUrl} className={'img-fluid rounded mx-auto d-block'} height={200} width={200} alt={'preview'}/>
@@ -98,7 +103,7 @@ function AddPrescription(props) {
                                     </thead>
                                     <tbody>
                                         {patientPrescriptionList.map((prescription, index) => (
-                                            <tr>
+                                            <tr key={index}>
                                                 <td>{index + 1}</td>
                                                 <td>{prescription.issued_date}</td>
                                                 <td>{prescription.comment}</td>

@@ -35,7 +35,7 @@ function ViewPrescriptions(props) {
                                     <td>{index + 1}</td>
                                     <td>{patient.patient_id}</td>
                                     <td>
-                                        <ImageView imageUrl={patient.image_url}/>
+                                        <ImageView prescription={patient.prescription} imageUrl={patient.image_url}/>
                                     </td>
                                 </tr>)}
                             </tbody>

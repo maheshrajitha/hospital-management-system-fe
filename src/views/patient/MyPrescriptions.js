@@ -48,7 +48,7 @@ export default function MyPrescriptions(props) {
                                             <td>{index + 1}</td>
                                             <td>{prescription.issued_date}</td>
                                             <td>
-                                                <ImageView imageUrl={prescription.image_url}/>
+                                                <ImageView prescription={prescription.prescription} imageUrl={prescription.image_url}/>
                                             </td>
                                             <td>{prescription.comment}</td>
                                         </tr>)}
